@@ -1,9 +1,9 @@
 import { Usuario } from "./Usuario";
 
 export abstract class Juego {
-    private nombre: string;
-    private apuestaMinima: number;
-    private apuestaMaxima: number;
+    protected nombre: string;
+    protected apuestaMinima: number;
+    protected apuestaMaxima: number;
 
     constructor(nombre: string, apuestaMinima: number, apuestaMaxima: number) {
         this.nombre = nombre;

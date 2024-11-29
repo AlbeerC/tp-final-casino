@@ -1,4 +1,3 @@
-
 export class Usuario {
     private nombre: string;
     private dineroInicial: number;
@@ -21,6 +20,10 @@ export class Usuario {
         } else {
             console.log("No cuentas con suficiente dinero");
         }
+    }
+
+    ajustarDinero(cantidad: number) {
+        this.dineroActual += cantidad;
     }
 
     verDinero(): number {
