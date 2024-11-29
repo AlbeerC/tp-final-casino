@@ -26,8 +26,8 @@ export class Usuario {
         this.dineroActual += cantidad;
     }
 
-    verDinero(): number {
-        return this.dineroActual;
+    verDinero(): void {
+        console.log(this.dineroActual)
     }
 
     // Getters

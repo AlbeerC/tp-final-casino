@@ -5,8 +5,8 @@ export class Casino {
     private nombre: string;
     private id: number;
     private ubicacion: string;
-    private juegos: Juego[];
-    private usuarios: Usuario[];
+    private juegos: Juego[] = [];
+    private usuarios: Usuario[] = [];
 
     constructor(nombre: string, id: number, ubicacion: string) {
         this.nombre = nombre;
