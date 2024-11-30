@@ -53,7 +53,7 @@ export class RuletaPotenciada extends Ruleta {
         }
 
         usuario.ajustarDinero(-apuestaTotal);
-        this.numeroGanador = Math.floor(Math.random() * this.numeros.length - 1);
+        this.numeroGanador = Math.floor(Math.random() * this.numeros.length);
 
         if (numerosElegidos.includes(this.numeroGanador)) {
             let ganancia: number = 0;
@@ -61,7 +61,7 @@ export class RuletaPotenciada extends Ruleta {
                 ganancia = apuesta * (this.numeros.length - 1) * 5;
                 this.resultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) estaba potenciado y fue el ganador. Has ganado ${ganancia} fichas.`;
             } else {
-                ganancia = ganancia = apuesta * this.numeros.length - 1;
+                ganancia = apuesta * this.numeros.length - 1;
                 this.resultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) fue el ganador. Has ganado ${ganancia} fichas.`;
             }
             usuario.ajustarDinero(ganancia);
@@ -81,6 +81,7 @@ export class RuletaPotenciada extends Ruleta {
     generarNumerosPotenciados(): void {
         for (let i: number = 0; i < 5; i++) {
             const numeroAleatorio: number = Math.floor(Math.random() * this.numeros.length);
+
             if (!this.numerosPotenciados.includes(numeroAleatorio)) {
                 this.numerosPotenciados.push(numeroAleatorio);
             }

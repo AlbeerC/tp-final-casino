@@ -50,7 +50,7 @@ export class RuletaClasica extends Ruleta {
         }
 
         usuario.ajustarDinero(-apuestaTotal); // Descontar la apuesta total
-        this.numeroGanador = Math.floor(Math.random() * this.numeros.length - 1); // Número aleatorio entre 0 y 36
+        this.numeroGanador = Math.floor(Math.random() * this.numeros.length); // Número aleatorio entre 0 y 36
 
         // Verificar si el número ganador está entre los números elegidos
         if (numerosElegidos.includes(this.numeroGanador)) {

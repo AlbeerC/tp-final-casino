@@ -69,6 +69,7 @@ var RuletaClasica = /** @class */ (function (_super) {
         else {
             this.resultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
         }
+        console.log(numerosElegidos);
     };
     RuletaClasica.prototype.mostrarResultado = function () {
         if (this.resultado) {
