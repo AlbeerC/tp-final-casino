@@ -15,18 +15,19 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RuletaClasica = void 0;
-var Ruleta_1 = require("./Ruleta");
+exports.RuletaPotenciada = void 0;
 var readlineSync = require("readline-sync");
-var RuletaClasica = /** @class */ (function (_super) {
-    __extends(RuletaClasica, _super);
-    function RuletaClasica(nombre, apuestaMinima, apuestaMaxima) {
+var Ruleta_1 = require("./Ruleta");
+var RuletaPotenciada = /** @class */ (function (_super) {
+    __extends(RuletaPotenciada, _super);
+    function RuletaPotenciada(nombre, apuestaMinima, apuestaMaxima) {
         var _this = _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
+        _this.numerosPotenciados = [];
         _this.numeroGanador = null;
         _this.resultado = "";
         return _this;
     }
-    RuletaClasica.prototype.iniciarTirada = function (usuario, apuesta) {
+    RuletaPotenciada.prototype.iniciarTirada = function (usuario, apuesta) {
         if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
             this.resultado = "La apuesta debe estar entre ".concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, ".");
             return;
@@ -35,42 +36,48 @@ var RuletaClasica = /** @class */ (function (_super) {
             this.resultado = "No cuentas con suficiente dinero";
             return;
         }
+        this.generarNumerosPotenciados();
         var numerosElegidos = [];
         while (true) {
             var numero = readlineSync.questionInt("Elige un numero del 0 al ".concat(this.numeros.length - 1, " (o presiona -1 para terminar): "));
             if (numero === -1)
-                break; // Salir del bucle si elige -1
+                break;
             if (numero < 0 || numero > this.numeros.length) {
                 console.log("N\u00FAmero inv\u00E1lido. Debe estar entre 0 y ".concat(this.numeros.length - 1, "."));
                 continue;
             }
             if (!numerosElegidos.includes(numero)) {
-                numerosElegidos.push(numero); // Agregar el número si no está en la lista
+                numerosElegidos.push(numero);
                 console.log("N\u00FAmero ".concat(numero, " a\u00F1adido a tu jugada."));
             }
             else {
                 console.log("El n\u00FAmero ".concat(numero, " ya ha sido elegido."));
             }
         }
-        // Calcular la apuesta total
         var apuestaTotal = numerosElegidos.length * apuesta;
         if (numerosElegidos.length === 0) {
             this.resultado = "No elegiste ningún número. La jugada no se realizó.";
             return;
         }
-        usuario.ajustarDinero(-apuestaTotal); // Descontar la apuesta total
-        this.numeroGanador = Math.floor(Math.random() * this.numeros.length); // Número aleatorio entre 0 y 36
-        // Verificar si el número ganador está entre los números elegidos
+        usuario.ajustarDinero(-apuestaTotal);
+        this.numeroGanador = Math.floor(Math.random() * this.numeros.length);
         if (numerosElegidos.includes(this.numeroGanador)) {
-            var ganancia = apuesta * this.numeros.length - 1;
+            var ganancia = 0;
+            if (this.numerosPotenciados.includes(this.numeroGanador)) {
+                ganancia = apuesta * (this.numeros.length - 1) * 5;
+                this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") estaba potenciado y fue el ganador. Has ganado ").concat(ganancia, " fichas.");
+            }
+            else {
+                ganancia = apuesta * this.numeros.length - 1;
+                this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
+            }
             usuario.ajustarDinero(ganancia);
-            this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
         }
         else {
             this.resultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
         }
     };
-    RuletaClasica.prototype.mostrarResultado = function () {
+    RuletaPotenciada.prototype.mostrarResultado = function () {
         if (this.resultado) {
             console.log(this.resultado);
         }
@@ -78,6 +85,14 @@ var RuletaClasica = /** @class */ (function (_super) {
             console.log("No hay resultado para mostrar aún");
         }
     };
-    return RuletaClasica;
+    RuletaPotenciada.prototype.generarNumerosPotenciados = function () {
+        for (var i = 0; i < 5; i++) {
+            var numeroAleatorio = Math.floor(Math.random() * this.numeros.length);
+            if (!this.numerosPotenciados.includes(numeroAleatorio)) {
+                this.numerosPotenciados.push(numeroAleatorio);
+            }
+        }
+    };
+    return RuletaPotenciada;
 }(Ruleta_1.Ruleta));
-exports.RuletaClasica = RuletaClasica;
+exports.RuletaPotenciada = RuletaPotenciada;
