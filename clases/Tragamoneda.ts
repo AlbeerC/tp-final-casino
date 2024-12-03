@@ -4,7 +4,7 @@ import { Usuario } from "./Usuario";
 export abstract class Tragamoneda extends Juego {
 
     constructor(nombre:string, apuestaMinima:number, apuestaMaxima:number){
-        super(nombre, apuestaMaxima, apuestaMinima)
+        super(nombre, apuestaMinima, apuestaMaxima)
     }
 
     abstract iniciarTirada(usuario: Usuario, apuesta: number): void;
