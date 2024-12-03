@@ -58,10 +58,10 @@ export class RuletaPotenciada extends Ruleta {
         if (numerosElegidos.includes(this.numeroGanador)) {
             let ganancia: number = 0;
             if (this.numerosPotenciados.includes(this.numeroGanador)) {
-                ganancia = apuesta * (this.numeros.length - 1) * 5;
+                ganancia = apuesta * (this.numeros.length - 5) * 5;
                 this.resultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) estaba potenciado y fue el ganador. Has ganado ${ganancia} fichas.`;
             } else {
-                ganancia = apuesta * this.numeros.length - 1;
+                ganancia = apuesta * this.numeros.length - 5;
                 this.resultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) fue el ganador. Has ganado ${ganancia} fichas.`;
             }
             usuario.ajustarDinero(ganancia);

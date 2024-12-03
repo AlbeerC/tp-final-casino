@@ -40,14 +40,14 @@ export class TragamonedaClasico extends Tragamoneda {
         if (this.resultado[0] === this.resultado[1] && this.resultado[1] === this.resultado[2]) {
             const ganancia = apuesta * 10;
             usuario.ajustarDinero(ganancia);
-            this.mensajeResultado = `Felicidades! Los tres símbolos fueron iguales. Ganaste ${ganancia} fichas`;
+            this.mensajeResultado = `Felicidades! Los tres símbolos fueron iguales. Ganaste $${ganancia} pesos`;
             // Si coinciden dos símbolos
         } else if (this.resultado[0] === this.resultado[1] || this.resultado[1] === this.resultado[2] || this.resultado[0] === this.resultado[2]) {
             usuario.ajustarDinero(apuesta);
             this.mensajeResultado = `Coincideron dos símbolos. Recuperas la apuesta`;
             // Si no coincide ninguno
         } else {
-            this.mensajeResultado = `Los tres símbolos fueron distintos. Pierdes ${apuesta} fichas`;
+            this.mensajeResultado = `Los tres símbolos fueron distintos. Pierdes $${apuesta} pesos`;
         }
     }
 

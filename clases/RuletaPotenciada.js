@@ -64,11 +64,11 @@ var RuletaPotenciada = /** @class */ (function (_super) {
         if (numerosElegidos.includes(this.numeroGanador)) {
             var ganancia = 0;
             if (this.numerosPotenciados.includes(this.numeroGanador)) {
-                ganancia = apuesta * (this.numeros.length - 1) * 5;
+                ganancia = apuesta * (this.numeros.length - 5) * 5;
                 this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") estaba potenciado y fue el ganador. Has ganado ").concat(ganancia, " fichas.");
             }
             else {
-                ganancia = apuesta * this.numeros.length - 1;
+                ganancia = apuesta * this.numeros.length - 5;
                 this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
             }
             usuario.ajustarDinero(ganancia);
