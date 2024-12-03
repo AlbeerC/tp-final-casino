@@ -5,12 +5,22 @@ import { Tragamoneda } from "./Tragamoneda";
 export class TragamonedaMatriz extends Tragamoneda {
     private filas: number = 3;
     private columnas: number = 3;
-    private mensajeResultado: string = '';
     private matriz: number[][] = [];
-    private simbolos: string[] = ["🍀", "💎", "🚀", "🔥", "🎲", "👑"];
 
     constructor (nombre:string, apuestaMinima: number, apuestaMaxima:number){
         super(nombre, apuestaMinima, apuestaMaxima);
+        this.simbolos = ["🍀", "💎", "🚀", "🔥", "🎲", "👑"];
+    }
+
+    iniciarTirada(usuario: Usuario, apuesta: number): void {
+
+        this.validarApuesta(usuario, apuesta)
+        usuario.ajustarDinero(-apuesta);
+
+        this.llenarMatriz();
+        this.mostrarMatriz();
+        usuario.ajustarDinero(this.calcularGanancia(usuario, apuesta));
+        this.mensajeResultado = `Ganancia total: $${this.calcularGanancia(usuario, apuesta)} pesos`;
     }
 
     // Crear la matriz y llenarla con números aleatorios
@@ -19,31 +29,12 @@ export class TragamonedaMatriz extends Tragamoneda {
             Array.from({ length: this.columnas }, () => Math.floor(Math.random() * this.simbolos.length))
         );
     }
-
+    
     // Mostrar los símbolos del resultado
     mostrarMatriz(): void {
         this.matriz.forEach(fila => {
             console.log(fila.map(index => this.simbolos[index]).join(" | "));
-        })
-    }
-
-    iniciarTirada(usuario: Usuario, apuesta: number): void {
-        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
-            this.mensajeResultado = `La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}.`;
-            return;
-        }
-
-        if (usuario.getDineroActual() < apuesta) {
-            this.mensajeResultado = "No cuentas con suficiente dinero";
-            return;
-        }
-
-        usuario.ajustarDinero(-apuesta);
-
-        this.llenarMatriz();
-        this.mostrarMatriz();
-        usuario.ajustarDinero(this.calcularGanancia(usuario, apuesta));
-        this.mensajeResultado = `Ganancia total: $${this.calcularGanancia(usuario, apuesta)} pesos`;
+        });
     }
 
     calcularGanancia(usuario: Usuario, apuesta: number): number {
