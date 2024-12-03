@@ -9,5 +9,5 @@ export abstract class Tragamoneda extends Juego {
 
     abstract iniciarTirada(usuario: Usuario, apuesta: number): void;
     abstract mostrarResultado(): void;
-    abstract calcularGanancia():void;
+    abstract calcularGanancia(usuario: Usuario, apuesta: number):void;
 }
