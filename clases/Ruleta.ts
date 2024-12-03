@@ -3,6 +3,7 @@ import { Usuario } from "./Usuario";
 
 export abstract class Ruleta extends Juego {
     protected numeros: number[];
+    protected numeroGanador: number | null = null;
 
     constructor(nombre: string, apuestaMinima: number, apuestaMaxima: number) {
         super(nombre, apuestaMinima, apuestaMaxima);

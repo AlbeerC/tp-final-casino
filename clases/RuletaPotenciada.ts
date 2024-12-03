@@ -5,24 +5,14 @@ import { Usuario } from "./Usuario";
 
 export class RuletaPotenciada extends Ruleta {
     private numerosPotenciados: number[] = [];
-    private numeroGanador: number | null = null;
-    private resultado: string = "";
     
     constructor(nombre: string, apuestaMinima: number, apuestaMaxima: number) {
         super(nombre, apuestaMinima, apuestaMaxima);
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {
-        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
-            this.resultado = `La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}.`;
-            return;
-        }
 
-        if (usuario.getDineroActual() < apuesta) {
-            this.resultado = "No cuentas con suficiente dinero";
-            return;
-        }
-
+        this.validarApuesta(usuario, apuesta);
         this.generarNumerosPotenciados();
 
         const numerosElegidos: number[] = [];
@@ -48,7 +38,7 @@ export class RuletaPotenciada extends Ruleta {
         const apuestaTotal: number = numerosElegidos.length * apuesta;
 
         if (numerosElegidos.length === 0) {
-            this.resultado = "No elegiste ningún número. La jugada no se realizó.";
+            this.mensajeResultado = "No elegiste ningún número. La jugada no se realizó.";
             return;
         }
 
@@ -59,20 +49,20 @@ export class RuletaPotenciada extends Ruleta {
             let ganancia: number = 0;
             if (this.numerosPotenciados.includes(this.numeroGanador)) {
                 ganancia = apuesta * (this.numeros.length - 5) * 5;
-                this.resultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) estaba potenciado y fue el ganador. Has ganado ${ganancia} fichas.`;
+                this.mensajeResultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) estaba potenciado y fue el ganador. Has ganado ${ganancia} fichas.`;
             } else {
                 ganancia = apuesta * this.numeros.length - 5;
-                this.resultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) fue el ganador. Has ganado ${ganancia} fichas.`;
+                this.mensajeResultado = `¡Felicidades! Uno de tus números (${this.numeroGanador}) fue el ganador. Has ganado ${ganancia} fichas.`;
             }
             usuario.ajustarDinero(ganancia);
         } else {
-            this.resultado = `Has perdido tu apuesta. El número ganador fue ${this.numeroGanador}. Mejor suerte la próxima vez.`;
+            this.mensajeResultado = `Has perdido tu apuesta. El número ganador fue ${this.numeroGanador}. Mejor suerte la próxima vez.`;
         }
     }
 
     mostrarResultado(): void {
-        if (this.resultado) {
-            console.log(this.resultado);
+        if (this.mensajeResultado) {
+            console.log(this.mensajeResultado);
         } else {
             console.log("No hay resultado para mostrar aún");
         }

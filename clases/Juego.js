@@ -3,10 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Juego = void 0;
 var Juego = /** @class */ (function () {
     function Juego(nombre, apuestaMinima, apuestaMaxima) {
+        this.mensajeResultado = '';
         this.nombre = nombre;
         this.apuestaMinima = apuestaMinima;
         this.apuestaMaxima = apuestaMaxima;
     }
+    Juego.prototype.validarApuesta = function (usuario, apuesta) {
+        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
+            this.mensajeResultado = "La apuesta debe estar entre ".concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, ".");
+            return;
+        }
+        if (usuario.getDineroActual() < apuesta) {
+            this.mensajeResultado = "No cuentas con suficiente dinero";
+            return;
+        }
+    };
     // Getters
     Juego.prototype.getNombre = function () {
         return this.nombre;

@@ -23,19 +23,10 @@ var RuletaPotenciada = /** @class */ (function (_super) {
     function RuletaPotenciada(nombre, apuestaMinima, apuestaMaxima) {
         var _this = _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
         _this.numerosPotenciados = [];
-        _this.numeroGanador = null;
-        _this.resultado = "";
         return _this;
     }
     RuletaPotenciada.prototype.iniciarTirada = function (usuario, apuesta) {
-        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
-            this.resultado = "La apuesta debe estar entre ".concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, ".");
-            return;
-        }
-        if (usuario.getDineroActual() < apuesta) {
-            this.resultado = "No cuentas con suficiente dinero";
-            return;
-        }
+        this.validarApuesta(usuario, apuesta);
         this.generarNumerosPotenciados();
         var numerosElegidos = [];
         while (true) {
@@ -56,7 +47,7 @@ var RuletaPotenciada = /** @class */ (function (_super) {
         }
         var apuestaTotal = numerosElegidos.length * apuesta;
         if (numerosElegidos.length === 0) {
-            this.resultado = "No elegiste ningún número. La jugada no se realizó.";
+            this.mensajeResultado = "No elegiste ningún número. La jugada no se realizó.";
             return;
         }
         usuario.ajustarDinero(-apuestaTotal);
@@ -65,21 +56,21 @@ var RuletaPotenciada = /** @class */ (function (_super) {
             var ganancia = 0;
             if (this.numerosPotenciados.includes(this.numeroGanador)) {
                 ganancia = apuesta * (this.numeros.length - 5) * 5;
-                this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") estaba potenciado y fue el ganador. Has ganado ").concat(ganancia, " fichas.");
+                this.mensajeResultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") estaba potenciado y fue el ganador. Has ganado ").concat(ganancia, " fichas.");
             }
             else {
                 ganancia = apuesta * this.numeros.length - 5;
-                this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
+                this.mensajeResultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
             }
             usuario.ajustarDinero(ganancia);
         }
         else {
-            this.resultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
+            this.mensajeResultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
         }
     };
     RuletaPotenciada.prototype.mostrarResultado = function () {
-        if (this.resultado) {
-            console.log(this.resultado);
+        if (this.mensajeResultado) {
+            console.log(this.mensajeResultado);
         }
         else {
             console.log("No hay resultado para mostrar aún");

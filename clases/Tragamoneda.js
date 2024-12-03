@@ -20,7 +20,9 @@ var Juego_1 = require("./Juego");
 var Tragamoneda = /** @class */ (function (_super) {
     __extends(Tragamoneda, _super);
     function Tragamoneda(nombre, apuestaMinima, apuestaMaxima) {
-        return _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
+        var _this = _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
+        _this.simbolos = [];
+        return _this;
     }
     return Tragamoneda;
 }(Juego_1.Juego));

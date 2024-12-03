@@ -21,20 +21,10 @@ var readlineSync = require("readline-sync");
 var RuletaClasica = /** @class */ (function (_super) {
     __extends(RuletaClasica, _super);
     function RuletaClasica(nombre, apuestaMinima, apuestaMaxima) {
-        var _this = _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
-        _this.numeroGanador = null;
-        _this.resultado = "";
-        return _this;
+        return _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
     }
     RuletaClasica.prototype.iniciarTirada = function (usuario, apuesta) {
-        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
-            this.resultado = "La apuesta debe estar entre ".concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, ".");
-            return;
-        }
-        if (usuario.getDineroActual() < apuesta) {
-            this.resultado = "No cuentas con suficiente dinero";
-            return;
-        }
+        this.validarApuesta(usuario, apuesta);
         var numerosElegidos = [];
         while (true) {
             var numero = readlineSync.questionInt("Elige un numero del 0 al ".concat(this.numeros.length - 1, " (o presiona -1 para terminar): "));
@@ -55,7 +45,7 @@ var RuletaClasica = /** @class */ (function (_super) {
         // Calcular la apuesta total
         var apuestaTotal = numerosElegidos.length * apuesta;
         if (numerosElegidos.length === 0) {
-            this.resultado = "No elegiste ningún número. La jugada no se realizó.";
+            this.mensajeResultado = "No elegiste ningún número. La jugada no se realizó.";
             return;
         }
         usuario.ajustarDinero(-apuestaTotal); // Descontar la apuesta total
@@ -64,15 +54,15 @@ var RuletaClasica = /** @class */ (function (_super) {
         if (numerosElegidos.includes(this.numeroGanador)) {
             var ganancia = apuesta * this.numeros.length - 1;
             usuario.ajustarDinero(ganancia);
-            this.resultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
+            this.mensajeResultado = "\u00A1Felicidades! Uno de tus n\u00FAmeros (".concat(this.numeroGanador, ") fue el ganador. Has ganado ").concat(ganancia, " fichas.");
         }
         else {
-            this.resultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
+            this.mensajeResultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
         }
     };
     RuletaClasica.prototype.mostrarResultado = function () {
-        if (this.resultado) {
-            console.log(this.resultado);
+        if (this.mensajeResultado) {
+            console.log(this.mensajeResultado);
         }
         else {
             console.log("No hay resultado para mostrar aún");

@@ -4,6 +4,7 @@ export abstract class Juego {
     protected nombre: string;
     protected apuestaMinima: number;
     protected apuestaMaxima: number;
+    protected mensajeResultado: string = '';
 
     constructor(nombre: string, apuestaMinima: number, apuestaMaxima: number) {
         this.nombre = nombre;
@@ -13,6 +14,18 @@ export abstract class Juego {
 
     abstract iniciarTirada(usuario: Usuario, apuesta: number): void;
     abstract mostrarResultado(): void;
+
+    validarApuesta(usuario: Usuario, apuesta: number): void {
+        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
+            this.mensajeResultado = `La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}.`;
+            return;
+        }
+
+        if (usuario.getDineroActual() < apuesta) {
+            this.mensajeResultado = "No cuentas con suficiente dinero";
+            return;
+        }
+    }
 
     // Getters
     getNombre(): string {
