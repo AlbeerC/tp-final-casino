@@ -23,11 +23,22 @@ var TragamonedaMatriz = /** @class */ (function (_super) {
         var _this = _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
         _this.filas = 3;
         _this.columnas = 3;
-        _this.mensajeResultado = '';
         _this.matriz = [];
         _this.simbolos = ["🍀", "💎", "🚀", "🔥", "🎲", "👑"];
         return _this;
     }
+    TragamonedaMatriz.prototype.mostrarReglas = function () {
+        console.log("".concat(this.nombre, "\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -El juego cuenta con un formato 3x3\n            -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones\n            -Cada s\u00EDmbolo tiene un valor espec\u00EDfico\n            "));
+    };
+    TragamonedaMatriz.prototype.iniciarTirada = function (usuario, apuesta) {
+        this.mostrarReglas();
+        this.validarApuesta(usuario, apuesta);
+        usuario.ajustarDinero(-apuesta);
+        this.llenarMatriz();
+        this.mostrarMatriz();
+        usuario.ajustarDinero(this.calcularGanancia(usuario, apuesta));
+        this.mensajeResultado = "Ganancia total: $".concat(this.calcularGanancia(usuario, apuesta), " pesos");
+    };
     // Crear la matriz y llenarla con números aleatorios
     TragamonedaMatriz.prototype.llenarMatriz = function () {
         var _this = this;
@@ -41,21 +52,6 @@ var TragamonedaMatriz = /** @class */ (function (_super) {
         this.matriz.forEach(function (fila) {
             console.log(fila.map(function (index) { return _this.simbolos[index]; }).join(" | "));
         });
-    };
-    TragamonedaMatriz.prototype.iniciarTirada = function (usuario, apuesta) {
-        if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
-            this.mensajeResultado = "La apuesta debe estar entre ".concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, ".");
-            return;
-        }
-        if (usuario.getDineroActual() < apuesta) {
-            this.mensajeResultado = "No cuentas con suficiente dinero";
-            return;
-        }
-        usuario.ajustarDinero(-apuesta);
-        this.llenarMatriz();
-        this.mostrarMatriz();
-        usuario.ajustarDinero(this.calcularGanancia(usuario, apuesta));
-        this.mensajeResultado = "Ganancia total: $".concat(this.calcularGanancia(usuario, apuesta), " pesos");
     };
     TragamonedaMatriz.prototype.calcularGanancia = function (usuario, apuesta) {
         var gananciaTotal = 0;

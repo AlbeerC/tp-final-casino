@@ -1,11 +1,20 @@
 import { Ruleta } from "./Ruleta";
 import { Usuario } from "./Usuario";
+import { Reglas } from "../interfaces/Reglas";  
 import * as readlineSync from "readline-sync";
 
-export class RuletaClasica extends Ruleta {
+export class RuletaClasica extends Ruleta implements Reglas {
 
     constructor(nombre: string, apuestaMinima: number, apuestaMaxima: number) {
         super(nombre, apuestaMinima, apuestaMaxima);
+    }
+
+    mostrarReglas(): void {
+        console.log(`🎡 ${this.nombre}:
+            -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
+            -Podés apostar los números que quieras entre 0 y ${this.numeros.length - 1}
+            -Si apostaste al número ganador, ganarás lo apostado a ese número multiplicado por ${this.numeros.length - 1}
+            `);
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {

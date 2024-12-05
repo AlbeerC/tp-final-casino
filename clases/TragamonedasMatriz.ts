@@ -1,8 +1,9 @@
 import { Juego } from "./Juego";
 import { Usuario } from "./Usuario";
 import { Tragamoneda } from "./Tragamoneda";
+import { Reglas } from "../interfaces/Reglas";
 
-export class TragamonedaMatriz extends Tragamoneda {
+export class TragamonedaMatriz extends Tragamoneda implements Reglas {
     private filas: number = 3;
     private columnas: number = 3;
     private matriz: number[][] = [];
@@ -10,6 +11,15 @@ export class TragamonedaMatriz extends Tragamoneda {
     constructor (nombre:string, apuestaMinima: number, apuestaMaxima:number){
         super(nombre, apuestaMinima, apuestaMaxima);
         this.simbolos = ["🍀", "💎", "🚀", "🔥", "🎲", "👑"];
+    }
+
+    mostrarReglas(): void {
+        console.log(`${this.nombre}
+            -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
+            -El juego cuenta con un formato 3x3
+            -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones
+            -Cada símbolo tiene un valor específico
+            `);
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {
