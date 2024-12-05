@@ -1,7 +1,7 @@
 export class Usuario {
     private nombre: string;
     private dineroInicial: number;
-    private dineroActual: number;
+    public dineroActual: number;
 
     constructor(nombre: string, dineroInicial: number) {
         this.nombre = nombre;
@@ -37,10 +37,5 @@ export class Usuario {
 
     getDineroActual(): number {
         return this.dineroActual;
-    }
-
-    // Setters
-    setDinero(dinero: number) {
-        this.dineroActual = dinero;
     }
 }

@@ -14,9 +14,8 @@ export class Casino {
         this.ubicacion = ubicacion;
     }
 
-    agregarUsuario(nombre: string, dineroInicial: number) {
-        const nuevoUsuario = new Usuario(nombre, dineroInicial);
-        this.usuarios.push(nuevoUsuario);
+    agregarUsuario(usuario: Usuario) {
+        this.usuarios.push(usuario);
     }
 
     crearJuego(juego: Juego) {
@@ -40,6 +39,10 @@ export class Casino {
 
     getId(): number {
         return this.id;
+    }
+
+    getJuegos(): Juego[] {
+        return this.juegos
     }
 
     // Setters

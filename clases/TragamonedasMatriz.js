@@ -31,7 +31,6 @@ var TragamonedaMatriz = /** @class */ (function (_super) {
         console.log("".concat(this.nombre, "\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -El juego cuenta con un formato 3x3\n            -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones\n            -Cada s\u00EDmbolo tiene un valor espec\u00EDfico\n            "));
     };
     TragamonedaMatriz.prototype.iniciarTirada = function (usuario, apuesta) {
-        this.mostrarReglas();
         this.validarApuesta(usuario, apuesta);
         usuario.ajustarDinero(-apuesta);
         this.llenarMatriz();

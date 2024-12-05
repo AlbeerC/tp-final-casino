@@ -17,12 +17,12 @@ export abstract class Juego {
 
     validarApuesta(usuario: Usuario, apuesta: number): void {
         if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
-            this.mensajeResultado = `La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}.`;
+            console.log(`La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}.`);
             return;
         }
 
         if (usuario.getDineroActual() < apuesta) {
-            this.mensajeResultado = "No cuentas con suficiente dinero";
+            console.log("No cuentas con suficiente dinero");
             return;
         }
     }

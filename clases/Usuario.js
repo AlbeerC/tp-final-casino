@@ -32,10 +32,6 @@ var Usuario = /** @class */ (function () {
     Usuario.prototype.getDineroActual = function () {
         return this.dineroActual;
     };
-    // Setters
-    Usuario.prototype.setDinero = function (dinero) {
-        this.dineroActual = dinero;
-    };
     return Usuario;
 }());
 exports.Usuario = Usuario;

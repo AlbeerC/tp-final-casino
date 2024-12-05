@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Casino = void 0;
-var Usuario_1 = require("./Usuario");
 var Casino = /** @class */ (function () {
     function Casino(nombre, id, ubicacion) {
         this.juegos = [];
@@ -10,9 +9,8 @@ var Casino = /** @class */ (function () {
         this.id = id;
         this.ubicacion = ubicacion;
     }
-    Casino.prototype.agregarUsuario = function (nombre, dineroInicial) {
-        var nuevoUsuario = new Usuario_1.Usuario(nombre, dineroInicial);
-        this.usuarios.push(nuevoUsuario);
+    Casino.prototype.agregarUsuario = function (usuario) {
+        this.usuarios.push(usuario);
     };
     Casino.prototype.crearJuego = function (juego) {
         this.juegos.push(juego);
@@ -31,6 +29,9 @@ var Casino = /** @class */ (function () {
     };
     Casino.prototype.getId = function () {
         return this.id;
+    };
+    Casino.prototype.getJuegos = function () {
+        return this.juegos;
     };
     // Setters
     Casino.prototype.setNombre = function (nombre) {

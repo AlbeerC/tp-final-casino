@@ -29,10 +29,11 @@ var TragamonedaClasico = /** @class */ (function (_super) {
         console.log("".concat(this.nombre, "\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -En cada tirada, salen tres s\u00EDmbolos:\n                -Si coinciden los tres, ganas tu apuesta multiplicado por 10\n                -Si coinciden dos, recuperas tu apuesta\n                -Si no coincide ninguno, pierdes tu apuesta\n            "));
     };
     TragamonedaClasico.prototype.iniciarTirada = function (usuario, apuesta) {
-        this.mostrarReglas();
+        this.resultadoSimbolos = [];
         this.validarApuesta(usuario, apuesta);
         usuario.ajustarDinero(-apuesta);
         this.calcularGanancia(usuario, apuesta);
+        this.mostrarResultado();
     };
     TragamonedaClasico.prototype.calcularGanancia = function (usuario, apuesta) {
         for (var i = 0; i < 3; i++) {

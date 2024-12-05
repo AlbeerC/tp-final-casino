@@ -21,9 +21,11 @@ export class TragamonedaClasico extends Tragamoneda implements Reglas {
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {
+        this.resultadoSimbolos = [];
         this.validarApuesta(usuario, apuesta);
         usuario.ajustarDinero(-apuesta);
         this.calcularGanancia(usuario, apuesta);
+        this.mostrarResultado()
     }
 
 
