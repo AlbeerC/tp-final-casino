@@ -37,6 +37,7 @@ var TragamonedaMatriz = /** @class */ (function (_super) {
         this.mostrarMatriz();
         usuario.ajustarDinero(this.calcularGanancia(usuario, apuesta));
         this.mensajeResultado = "Ganancia total: $".concat(this.calcularGanancia(usuario, apuesta), " pesos");
+        this.mostrarResultado();
     };
     // Crear la matriz y llenarla con números aleatorios
     TragamonedaMatriz.prototype.llenarMatriz = function () {

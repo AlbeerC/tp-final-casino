@@ -193,10 +193,18 @@ var Menu = /** @class */ (function () {
             console.log("Ingresar Apuesta - ".concat(juego.getNombre()));
             console.log("=========================");
             // Usa questionFloat para permitir números decimales
-            cantidad = rls.questionFloat("Ingresa la cantidad a apostar (0 para regresar al menú anterior): ");
-            juego.validarApuesta(this.usuarioActual, cantidad);
-            this.menuTragamonedas(juego, cantidad);
-            rls.question("Presiona Enter para continuar jugando o ingresa 0 para regresar al menú...");
+            cantidad = rls.questionFloat("Ingresa la cantidad a apostar (0 para regresar al menu anterior): ");
+            if (cantidad === 0) {
+                console.log("Volviendo al menú de usuario...");
+                continuar = false; // Sale del ciclo y regresa al menú anterior
+            }
+            else {
+                // Si la apuesta es válida, inicia la tirada
+                if (juego.validarApuesta(this.usuarioActual, cantidad)) {
+                    this.menuTragamonedas(juego, cantidad);
+                }
+                rls.question("Presiona Enter para continuar jugando o ingresa 0 para regresar al menú...");
+            }
         }
     };
     Menu.prototype.menuTragamonedas = function (juego, cantidad) {
@@ -206,9 +214,15 @@ var Menu = /** @class */ (function () {
             console.log("=========================");
             console.log("".concat(juego.getNombre()));
             console.log("=========================");
+            // Validar la apuesta antes de iniciar la tirada
+            if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                continuar = false; // Sale del ciclo si no tiene dinero suficiente
+                break;
+            }
             console.log("Iniciando tirada...");
             juego.iniciarTirada(this.usuarioActual, cantidad); // Inicia la tirada
             // Pregunta si desea continuar o volver al menú de apuestas
+            console.log("Dinero actual: $".concat(this.usuarioActual.getDineroActual()));
             var opcion = rls.questionInt("Presiona 1 para hacer otra tirada o 0 para volver: ");
             if (opcion === 0) {
                 console.log("Volviendo al menú de apuestas...");

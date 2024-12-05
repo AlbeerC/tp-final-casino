@@ -11,12 +11,13 @@ var Juego = /** @class */ (function () {
     Juego.prototype.validarApuesta = function (usuario, apuesta) {
         if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
             console.log("La apuesta debe estar entre ".concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "."));
-            return;
+            return false;
         }
         if (usuario.getDineroActual() < apuesta) {
             console.log("No cuentas con suficiente dinero");
-            return;
+            return false;
         }
+        return true;
     };
     // Getters
     Juego.prototype.getNombre = function () {

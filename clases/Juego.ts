@@ -15,16 +15,18 @@ export abstract class Juego {
     abstract iniciarTirada(usuario: Usuario, apuesta: number): void;
     abstract mostrarResultado(): void;
 
-    validarApuesta(usuario: Usuario, apuesta: number): void {
+    validarApuesta(usuario: Usuario, apuesta: number): boolean {
         if (apuesta < this.apuestaMinima || apuesta > this.apuestaMaxima) {
             console.log(`La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}.`);
-            return;
+            return false;
         }
 
         if (usuario.getDineroActual() < apuesta) {
             console.log("No cuentas con suficiente dinero");
-            return;
+            return false;
         }
+
+        return true;
     }
 
     // Getters

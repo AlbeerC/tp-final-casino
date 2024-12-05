@@ -60,6 +60,8 @@ export class RuletaClasica extends Ruleta implements Reglas {
         } else {
             this.mensajeResultado = `Has perdido tu apuesta. El número ganador fue ${this.numeroGanador}. Mejor suerte la próxima vez.`;
         }
+
+        this.mostrarResultado();
     }
 
     mostrarResultado(): void {

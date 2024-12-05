@@ -70,6 +70,7 @@ var RuletaPotenciada = /** @class */ (function (_super) {
         else {
             this.mensajeResultado = "Has perdido tu apuesta. El n\u00FAmero ganador fue ".concat(this.numeroGanador, ". Mejor suerte la pr\u00F3xima vez.");
         }
+        this.mostrarResultado();
     };
     RuletaPotenciada.prototype.mostrarResultado = function () {
         if (this.mensajeResultado) {

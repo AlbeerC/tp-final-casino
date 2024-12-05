@@ -31,6 +31,7 @@ export class TragamonedaMatriz extends Tragamoneda implements Reglas {
         this.mostrarMatriz();
         usuario.ajustarDinero(this.calcularGanancia(usuario, apuesta));
         this.mensajeResultado = `Ganancia total: $${this.calcularGanancia(usuario, apuesta)} pesos`;
+        this.mostrarResultado()
     }
 
     // Crear la matriz y llenarla con números aleatorios
