@@ -28,7 +28,7 @@ var TragamonedaMatriz = /** @class */ (function (_super) {
         return _this;
     }
     TragamonedaMatriz.prototype.mostrarReglas = function () {
-        console.log("".concat(this.nombre, "\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -El juego cuenta con un formato 3x3\n            -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones\n            -Cada s\u00EDmbolo tiene un valor espec\u00EDfico\n            "));
+        console.log("".concat(this.nombre, "\n    -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n    -El juego cuenta con un formato 3x3\n    -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones\n    -Cada s\u00EDmbolo tiene un valor espec\u00EDfico\n    "));
     };
     TragamonedaMatriz.prototype.iniciarTirada = function (usuario, apuesta) {
         this.validarApuesta(usuario, apuesta);
@@ -91,7 +91,7 @@ var TragamonedaMatriz = /** @class */ (function (_super) {
     };
     TragamonedaMatriz.prototype.mostrarResultado = function () {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log("\u001B[35m".concat(this.mensajeResultado, "\u001B[0m"));
         }
         else {
             console.log("No hay resultado para mostrar aún");

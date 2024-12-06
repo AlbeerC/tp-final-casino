@@ -1,13 +1,14 @@
 import * as rls from "readline-sync";
 import { Casino } from "./Casino";
 import { Usuario } from "./Usuario";
+import { Tragamoneda } from "./Tragamoneda";
 import { TragamonedaClasico } from "./TragamonedaClasico";
 import { TragamonedaMatriz } from "./TragamonedasMatriz";
 import { RuletaClasica } from "./ruletaClasica";
 import { RuletaPotenciada } from "./RuletaPotenciada";
  
 export class Menu {
-    private casino: Casino = new Casino("Casino ilegal", 24225, "Olavarria");
+    private casino: Casino = new Casino("Ilegal", 24225, "Olavarria");
     private usuarioActual: Usuario;
 
     crearJuegos(): void {
@@ -25,17 +26,24 @@ export class Menu {
         this.crearJuegos();
     }
 
+    mostrarCabecera(): void {
+        console.clear();
+        console.log("\x1b[33m==============================");
+        console.log(`Usuario: ${this.usuarioActual.getNombre()} | Dinero: $${this.usuarioActual.getDineroActual()}`);
+        console.log("==============================\x1b[0m");
+    }    
+
     mostrarMenu(): void {
         let opcion: number;
 
         // Menú principal
         do {
             console.clear();
-            console.log("=========================");
+            console.log("\x1b[35m====================================");
             console.log(`Bienvenido al Casino ${this.casino.getNombre()}`);
-            console.log("=========================");
-            console.log("1 - Registrarse");
-            console.log("0 - Salir");
+            console.log("====================================\x1b[0m");
+            console.log("\x1b[32m1 - Registrarse");
+            console.log("0 - Salir\x1b[0m");
 
             opcion = rls.questionInt("Selecciona una opcion: ");
 
@@ -54,16 +62,15 @@ export class Menu {
 
     registrarUsuario() {
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Registro de Usuario");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
 
         const nombre = rls.question("Ingresa tu nombre: ");
         const dineroInicial = parseFloat(rls.question("Ingresa tu dinero inicial: "));
 
         if (isNaN(dineroInicial) || dineroInicial <= 0) {
             console.log("Dinero inicial invalido. Debes ingresar un numero mayor a 0.");
-            rls.question("Presiona Enter para regresar al menu principal...");
             return;
         }
 
@@ -72,7 +79,6 @@ export class Menu {
         this.usuarioActual = nuevoUsuario;
 
         console.log(`¡Bienvenido, ${nombre}! Tienes $${dineroInicial} para jugar.`);
-        rls.question("Presiona Enter para continuar...");
 
         this.mostrarMenuUsuario()
     }
@@ -83,14 +89,11 @@ export class Menu {
 
         do {
             console.clear();
-            console.log("=========================");
-            console.log(`Usuario: ${this.usuarioActual.getNombre()} | Saldo: $${this.usuarioActual.dineroActual}`);
-            console.log("=========================");
-            console.log("1 - Jugar un juego");
+            this.mostrarCabecera();
+            console.log("\x1b[32m1 - Jugar un juego");
             console.log("2 - Depositar dinero");
-            console.log("3 - Ver dinero");
-            console.log("4 - Retirar dinero");
-            console.log("0 - Salir");
+            console.log("3 - Retirar dinero");
+            console.log("0 - Volver\x1b[0m");
 
             opcion = rls.questionInt("Selecciona una opcion: ");
 
@@ -102,9 +105,6 @@ export class Menu {
                     this.depositarDinero();
                     break;
                 case 3:
-                    this.verDinero();
-                    break;
-                case 4:
                     this.retirarDinero();
                     break;
                 case 0:
@@ -112,21 +112,22 @@ export class Menu {
                     break;
                 default:
                     console.log("Opcion invalida. Intenta de nuevo.");
-                    rls.question("Presiona Enter para continuar...");
             }
         } while (opcion !== 0);
     }
 
     // Elegir un juego
     jugarJuego() {
+        this.mostrarCabecera();
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Seleccionar Juego");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
 
         this.casino.mostrarJuegos();
+        console.log("0 - Volver\x1b[0m")
 
-        const opcion = parseInt(rls.questionInt("Selecciona un juego por su numero o 0 para volver: "));
+        const opcion = parseInt(rls.questionInt("Selecciona una opcion: "));
 
         if (isNaN(opcion) || opcion < 0 || opcion > this.casino.getJuegos().length) {
             console.log("Opcion invalida. Volviendo al menu...");
@@ -134,7 +135,6 @@ export class Menu {
             console.log("Volviendo al menu de usuario...");
         } else {
             console.log(`Has seleccionado: ${this.casino.getJuegos()[opcion - 1].getNombre()}`);
-            rls.question("Presiona Enter para continuar...");
             
             this.menuJugar(this.casino.getJuegos()[opcion - 1])
         }
@@ -142,9 +142,9 @@ export class Menu {
 
     depositarDinero() {
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Depositar Dinero");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
     
         const cantidad = parseFloat(rls.questionInt("Ingresa la cantidad a depositar: "));
     
@@ -154,23 +154,15 @@ export class Menu {
             this.usuarioActual.dineroActual += cantidad;
             console.log(`Has depositado $${cantidad}. Tu saldo actual es $${this.usuarioActual.dineroActual}.`);
         }
-    
-        rls.question("Presiona Enter para continuar...");
-    }
 
-    verDinero() {
-        console.clear();
-        console.log("=========================");
-        console.log(`Tu saldo actual es: $${this.usuarioActual.dineroActual} .`);
-        console.log("=========================");
-        rls.question("Presiona Enter para continuar...");
+        rls.question("\nPresiona Enter para continuar...");
     }
 
     retirarDinero() {
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Retirar Dinero");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
 
         const cantidad = parseFloat(rls.questionInt("Ingresa la cantidad a retirar: "));
 
@@ -180,22 +172,22 @@ export class Menu {
             console.log("No tienes suficientes dinero para retirar esa cantidad.");
         } else {
             this.usuarioActual.dineroActual -= cantidad;
-            console.log(`Has retirado $${cantidad}. Tu saldo actual es ${this.usuarioActual.dineroActual}.`);
+            console.log(`Has retirado $${cantidad}. Tu saldo actual es $${this.usuarioActual.dineroActual}.`);
         }
 
-        rls.question("Presiona Enter para continuar...");
+        rls.question("\nPresiona Enter para continuar...");
     }
 
     menuJugar(juego: any) {
+        this.mostrarCabecera();
         let opcion: number;
         do {
             console.clear();
-            console.log("=========================");
-            console.log(`Juego: ${juego.getNombre()}`);
-            console.log("=========================");
+            console.log("\x1b[34m=========================");
             juego.mostrarReglas();
-            console.log("1 - Ingresar cantidad de apuesta");
-            console.log("0 - Salir");
+            console.log("=========================\x1b[0m");
+            console.log("\x1b[32m1 - Ingresar cantidad de apuesta");
+            console.log("0 - Volver\x1b[0m");
     
             opcion = rls.questionInt("Selecciona una opcion: ");
     
@@ -213,14 +205,14 @@ export class Menu {
     }
 
     ingresarApuesta(juego: any) {
+        this.mostrarCabecera();
         let cantidad: number;
         let continuar = true;
     
         while (continuar) {
-            console.clear();
-            console.log("=========================");
+            console.log("\x1b[34m=========================");
             console.log(`Ingresar Apuesta - ${juego.getNombre()}`);
-            console.log("=========================");
+            console.log("=========================\x1b[0m");
             
             // Usa questionFloat para permitir números decimales
             cantidad = rls.questionFloat("Ingresa la cantidad a apostar (0 para regresar al menu anterior): ");
@@ -231,40 +223,64 @@ export class Menu {
             } else {
                 // Si la apuesta es válida, inicia la tirada
                 if (juego.validarApuesta(this.usuarioActual, cantidad)) {
-                    this.menuTragamonedas(juego, cantidad);
+                    this.menuJuego(juego, cantidad);
                 }
-                rls.question("Presiona Enter para continuar jugando o ingresa 0 para regresar al menú...");
             }
         }
     }
 
-    menuTragamonedas(juego: any, cantidad: number) {
+    menuJuego(juego: any, cantidad: number) {
+        this.mostrarCabecera();
         let continuar = true;
     
         while (continuar) {
             console.clear();
-            console.log("=========================");
-            console.log(`${juego.getNombre()}`);
-            console.log("=========================");
 
-            // Validar la apuesta antes de iniciar la tirada
-            if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
-                continuar = false;  // Sale del ciclo si no tiene dinero suficiente
-                break;
-            }
-            
-            console.log("Iniciando tirada...");
-            juego.iniciarTirada(this.usuarioActual, cantidad);  // Inicia la tirada
-    
-            // Pregunta si desea continuar o volver al menú de apuestas
-            console.log(`Dinero actual: $${this.usuarioActual.getDineroActual()}`)
-            const opcion = rls.questionInt("Presiona 1 para hacer otra tirada o 0 para volver: ");
-            if (opcion === 0) {
-                console.log("Volviendo al menú de apuestas...");
-                continuar = false;  // Salir del ciclo y regresar al menú de apuestas
-            } else if (opcion !== 1) {
-                console.log("Opción inválida. Regresando al menú de apuestas...");
-                continuar = false;
+            // Submenú específico para tragamonedas
+            if (juego instanceof Tragamoneda) {
+                this.mostrarCabecera();
+                console.log("\x1b[32m1- Hacer tirada");
+                console.log("0- Volver\x1b[0m");
+                const opcion = rls.questionInt("Elige una opcion: ");
+
+                if (opcion === 0) {
+                    continuar = false; // Salir del ciclo y regresar al menú de apuestas
+                    break;
+                } else if (opcion === 1) {
+                    console.clear();
+                    if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                        continuar = false;
+                        break;
+                    }
+
+                    this.mostrarCabecera();
+                    juego.iniciarTirada(this.usuarioActual, cantidad); // Inicia la tirada
+                    rls.question("Presiona Enter para continuar...");
+                } else {
+                    console.log("Opción inválida. Intenta nuevamente.");
+                }
+                // Flujo para las ruletas
+            } else {
+                // Validar la apuesta antes de iniciar la tirada
+                if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                    continuar = false;  // Sale del ciclo si no tiene dinero suficiente
+                    break;
+                }
+                
+                this.mostrarCabecera();
+                juego.iniciarTirada(this.usuarioActual, cantidad);  // Inicia la tirada
+                rls.question("Presiona Enter para continuar...");
+        
+                // Pregunta si desea continuar o volver al menú de apuestas
+                this.mostrarCabecera();
+                const opcion = rls.questionInt("Presiona 1 para hacer otra tirada o 0 para volver: ");
+                if (opcion === 0) {
+                    console.log("Volviendo al menú de apuestas...");
+                    continuar = false;  // Salir del ciclo y regresar al menú de apuestas
+                } else if (opcion !== 1) {
+                    console.log("Opción inválida. Regresando al menú de apuestas...");
+                    continuar = false;
+                }
             }
         }
     }

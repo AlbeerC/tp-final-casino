@@ -26,11 +26,17 @@ var RuletaPotenciada = /** @class */ (function (_super) {
         return _this;
     }
     RuletaPotenciada.prototype.mostrarReglas = function () {
-        console.log("\uD83C\uDFA1\u26A1 ".concat(this.nombre, ":\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -Pod\u00E9s apostar los n\u00FAmeros que quieras entre 0 y ").concat(this.numeros.length - 1, "\n            -En cada ronda, se potencian 5 n\u00FAmeros.\n            -Si apostaste al n\u00FAmero ganador, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat(this.numeros.length - 5, "\n            -Si apostaste al n\u00FAmero ganador y adem\u00E1s est\u00E1 potenciado, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat((this.numeros.length - 5) * 5, "\n            "));
+        console.log("\uD83C\uDFA1\u26A1 ".concat(this.nombre, ":\n    -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n    -Pod\u00E9s apostar los n\u00FAmeros que quieras entre 0 y ").concat(this.numeros.length - 1, "\n    -En cada ronda, se potencian 5 n\u00FAmeros.\n    -Si apostaste al n\u00FAmero ganador, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat(this.numeros.length - 5, "\n    -Si apostaste al n\u00FAmero ganador y adem\u00E1s est\u00E1 potenciado, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat((this.numeros.length - 5) * 5, "\n    "));
     };
     RuletaPotenciada.prototype.iniciarTirada = function (usuario, apuesta) {
         this.validarApuesta(usuario, apuesta);
         this.generarNumerosPotenciados();
+        // Calcular el número máximo de fichas que el usuario puede comprar
+        var maxFichas = Math.floor(usuario.getDineroActual() / apuesta);
+        if (maxFichas === 0) {
+            console.log("No tienes suficiente saldo para realizar esta jugada.");
+            return;
+        }
         var numerosElegidos = [];
         while (true) {
             var numero = readlineSync.questionInt("Elige un numero del 0 al ".concat(this.numeros.length - 1, " (o presiona -1 para terminar): "));
@@ -41,8 +47,13 @@ var RuletaPotenciada = /** @class */ (function (_super) {
                 continue;
             }
             if (!numerosElegidos.includes(numero)) {
-                numerosElegidos.push(numero);
-                console.log("N\u00FAmero ".concat(numero, " a\u00F1adido a tu jugada."));
+                if (numerosElegidos.length >= maxFichas) {
+                    console.log("No cuentas con suficiente dinero para seguir agregando números");
+                }
+                else {
+                    numerosElegidos.push(numero); // Agregar el número si no está en la lista
+                    console.log("N\u00FAmero ".concat(numero, " a\u00F1adido a tu jugada."));
+                }
             }
             else {
                 console.log("El n\u00FAmero ".concat(numero, " ya ha sido elegido."));
@@ -74,7 +85,7 @@ var RuletaPotenciada = /** @class */ (function (_super) {
     };
     RuletaPotenciada.prototype.mostrarResultado = function () {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log("\u001B[35m".concat(this.mensajeResultado, "\u001B[0m"));
         }
         else {
             console.log("No hay resultado para mostrar aún");

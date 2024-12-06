@@ -15,11 +15,11 @@ export class TragamonedaMatriz extends Tragamoneda implements Reglas {
 
     mostrarReglas(): void {
         console.log(`${this.nombre}
-            -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
-            -El juego cuenta con un formato 3x3
-            -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones
-            -Cada símbolo tiene un valor específico
-            `);
+    -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
+    -El juego cuenta con un formato 3x3
+    -Las combinaciones posibles son por fila, o en diagonal en ambas direcciones
+    -Cada símbolo tiene un valor específico
+    `);
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {
@@ -95,7 +95,7 @@ export class TragamonedaMatriz extends Tragamoneda implements Reglas {
 
     mostrarResultado(): void {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log(`\x1b[35m${this.mensajeResultado}\x1b[0m`);
         } else {
             console.log("No hay resultado para mostrar aún");
         }

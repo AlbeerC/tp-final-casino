@@ -26,7 +26,7 @@ var TragamonedaClasico = /** @class */ (function (_super) {
         return _this;
     }
     TragamonedaClasico.prototype.mostrarReglas = function () {
-        console.log("".concat(this.nombre, "\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -En cada tirada, salen tres s\u00EDmbolos:\n                -Si coinciden los tres, ganas tu apuesta multiplicado por 10\n                -Si coinciden dos, recuperas tu apuesta\n                -Si no coincide ninguno, pierdes tu apuesta\n            "));
+        console.log("".concat(this.nombre, "\n    -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n    -En cada tirada, salen tres s\u00EDmbolos:\n        -Si coinciden los tres, ganas tu apuesta multiplicado por 10\n        -Si coinciden dos, recuperas tu apuesta\n        -Si no coincide ninguno, pierdes tu apuesta\n    "));
     };
     TragamonedaClasico.prototype.iniciarTirada = function (usuario, apuesta) {
         this.resultadoSimbolos = [];
@@ -59,7 +59,7 @@ var TragamonedaClasico = /** @class */ (function (_super) {
     };
     TragamonedaClasico.prototype.mostrarResultado = function () {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log("\u001B[35m".concat(this.mensajeResultado, "\u001B[0m"));
         }
         else {
             console.log("No hay resultado para mostrar aún");

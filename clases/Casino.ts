@@ -24,7 +24,7 @@ export class Casino {
 
     mostrarJuegos(): void {
         this.juegos.forEach((juego, index) => {
-            console.log(`${index + 1} - ${juego.getNombre()}`);
+            console.log(`\x1b[32m${index + 1} - ${juego.getNombre()}`);
         });
     }
 

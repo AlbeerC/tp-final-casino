@@ -12,12 +12,12 @@ export class TragamonedaClasico extends Tragamoneda implements Reglas {
 
     mostrarReglas(): void {
         console.log(`${this.nombre}
-            -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
-            -En cada tirada, salen tres símbolos:
-                -Si coinciden los tres, ganas tu apuesta multiplicado por 10
-                -Si coinciden dos, recuperas tu apuesta
-                -Si no coincide ninguno, pierdes tu apuesta
-            `);
+    -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
+    -En cada tirada, salen tres símbolos:
+        -Si coinciden los tres, ganas tu apuesta multiplicado por 10
+        -Si coinciden dos, recuperas tu apuesta
+        -Si no coincide ninguno, pierdes tu apuesta
+    `);
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {
@@ -54,7 +54,7 @@ export class TragamonedaClasico extends Tragamoneda implements Reglas {
 
     mostrarResultado(): void {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log(`\x1b[35m${this.mensajeResultado}\x1b[0m`);
         } else {
             console.log("No hay resultado para mostrar aún");
         }

@@ -17,7 +17,7 @@ var Casino = /** @class */ (function () {
     };
     Casino.prototype.mostrarJuegos = function () {
         this.juegos.forEach(function (juego, index) {
-            console.log("".concat(index + 1, " - ").concat(juego.getNombre()));
+            console.log("\u001B[32m".concat(index + 1, " - ").concat(juego.getNombre()));
         });
     };
     // Getters

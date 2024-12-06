@@ -13,18 +13,25 @@ export class RuletaPotenciada extends Ruleta implements Reglas {
 
     mostrarReglas(): void {
         console.log(`🎡⚡ ${this.nombre}:
-            -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
-            -Podés apostar los números que quieras entre 0 y ${this.numeros.length - 1}
-            -En cada ronda, se potencian 5 números.
-            -Si apostaste al número ganador, ganarás lo apostado a ese número multiplicado por ${this.numeros.length - 5}
-            -Si apostaste al número ganador y además está potenciado, ganarás lo apostado a ese número multiplicado por ${(this.numeros.length - 5) * 5}
-            `);
+    -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
+    -Podés apostar los números que quieras entre 0 y ${this.numeros.length - 1}
+    -En cada ronda, se potencian 5 números.
+    -Si apostaste al número ganador, ganarás lo apostado a ese número multiplicado por ${this.numeros.length - 5}
+    -Si apostaste al número ganador y además está potenciado, ganarás lo apostado a ese número multiplicado por ${(this.numeros.length - 5) * 5}
+    `);
     }
 
     iniciarTirada(usuario: Usuario, apuesta: number): void {
 
         this.validarApuesta(usuario, apuesta);
         this.generarNumerosPotenciados();
+
+        // Calcular el número máximo de fichas que el usuario puede comprar
+        const maxFichas = Math.floor(usuario.getDineroActual() / apuesta);
+            if (maxFichas === 0) {
+                console.log("No tienes suficiente saldo para realizar esta jugada.");
+                return;
+            }
 
         const numerosElegidos: number[] = [];
 
@@ -39,8 +46,12 @@ export class RuletaPotenciada extends Ruleta implements Reglas {
             }
 
             if (!numerosElegidos.includes(numero)) {
-                numerosElegidos.push(numero);
-                console.log(`Número ${numero} añadido a tu jugada.`);
+                if (numerosElegidos.length >= maxFichas) {
+                    console.log("No cuentas con suficiente dinero para seguir agregando números")
+                } else {
+                    numerosElegidos.push(numero); // Agregar el número si no está en la lista
+                    console.log(`Número ${numero} añadido a tu jugada.`);
+                }
             } else {
                 console.log(`El número ${numero} ya ha sido elegido.`);
             }
@@ -75,7 +86,7 @@ export class RuletaPotenciada extends Ruleta implements Reglas {
 
     mostrarResultado(): void {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log(`\x1b[35m${this.mensajeResultado}\x1b[0m`);
         } else {
             console.log("No hay resultado para mostrar aún");
         }

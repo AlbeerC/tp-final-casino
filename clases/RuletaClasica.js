@@ -24,10 +24,16 @@ var RuletaClasica = /** @class */ (function (_super) {
         return _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
     }
     RuletaClasica.prototype.mostrarReglas = function () {
-        console.log("\uD83C\uDFA1 ".concat(this.nombre, ":\n            -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n            -Pod\u00E9s apostar los n\u00FAmeros que quieras entre 0 y ").concat(this.numeros.length - 1, "\n            -Si apostaste al n\u00FAmero ganador, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat(this.numeros.length - 1, "\n            "));
+        console.log("\uD83C\uDFA1 ".concat(this.nombre, ":\n    -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n    -Pod\u00E9s apostar los n\u00FAmeros que quieras entre 0 y ").concat(this.numeros.length - 1, "\n    -Si apostaste al n\u00FAmero ganador, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat(this.numeros.length - 1, "\n    "));
     };
     RuletaClasica.prototype.iniciarTirada = function (usuario, apuesta) {
         this.validarApuesta(usuario, apuesta);
+        // Calcular el número máximo de fichas que el usuario puede comprar
+        var maxFichas = Math.floor(usuario.getDineroActual() / apuesta);
+        if (maxFichas === 0) {
+            console.log("No tienes suficiente saldo para realizar esta jugada.");
+            return;
+        }
         var numerosElegidos = [];
         while (true) {
             var numero = readlineSync.questionInt("Elige un numero del 0 al ".concat(this.numeros.length - 1, " (o presiona -1 para terminar): "));
@@ -38,8 +44,13 @@ var RuletaClasica = /** @class */ (function (_super) {
                 continue;
             }
             if (!numerosElegidos.includes(numero)) {
-                numerosElegidos.push(numero); // Agregar el número si no está en la lista
-                console.log("N\u00FAmero ".concat(numero, " a\u00F1adido a tu jugada."));
+                if (numerosElegidos.length >= maxFichas) {
+                    console.log("No cuentas con suficiente dinero para seguir agregando números");
+                }
+                else {
+                    numerosElegidos.push(numero); // Agregar el número si no está en la lista
+                    console.log("N\u00FAmero ".concat(numero, " a\u00F1adido a tu jugada."));
+                }
             }
             else {
                 console.log("El n\u00FAmero ".concat(numero, " ya ha sido elegido."));
@@ -48,7 +59,7 @@ var RuletaClasica = /** @class */ (function (_super) {
         // Calcular la apuesta total
         var apuestaTotal = numerosElegidos.length * apuesta;
         if (numerosElegidos.length === 0) {
-            this.mensajeResultado = "No elegiste ningún número. La jugada no se realizó.";
+            console.log("No elegiste ningún número. La jugada no se realizó.");
             return;
         }
         usuario.ajustarDinero(-apuestaTotal); // Descontar la apuesta total
@@ -66,7 +77,7 @@ var RuletaClasica = /** @class */ (function (_super) {
     };
     RuletaClasica.prototype.mostrarResultado = function () {
         if (this.mensajeResultado) {
-            console.log(this.mensajeResultado);
+            console.log("\u001B[35m".concat(this.mensajeResultado, "\u001B[0m"));
         }
         else {
             console.log("No hay resultado para mostrar aún");

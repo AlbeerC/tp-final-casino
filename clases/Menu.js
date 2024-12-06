@@ -4,13 +4,14 @@ exports.Menu = void 0;
 var rls = require("readline-sync");
 var Casino_1 = require("./Casino");
 var Usuario_1 = require("./Usuario");
+var Tragamoneda_1 = require("./Tragamoneda");
 var TragamonedaClasico_1 = require("./TragamonedaClasico");
 var TragamonedasMatriz_1 = require("./TragamonedasMatriz");
 var ruletaClasica_1 = require("./ruletaClasica");
 var RuletaPotenciada_1 = require("./RuletaPotenciada");
 var Menu = /** @class */ (function () {
     function Menu() {
-        this.casino = new Casino_1.Casino("Casino ilegal", 24225, "Olavarria");
+        this.casino = new Casino_1.Casino("Ilegal", 24225, "Olavarria");
         this.crearJuegos();
     }
     Menu.prototype.crearJuegos = function () {
@@ -23,16 +24,22 @@ var Menu = /** @class */ (function () {
         this.casino.crearJuego(ruleta1);
         this.casino.crearJuego(ruleta2);
     };
+    Menu.prototype.mostrarCabecera = function () {
+        console.clear();
+        console.log("\x1b[33m==============================");
+        console.log("Usuario: ".concat(this.usuarioActual.getNombre(), " | Dinero: $").concat(this.usuarioActual.getDineroActual()));
+        console.log("==============================\x1b[0m");
+    };
     Menu.prototype.mostrarMenu = function () {
         var opcion;
         // Menú principal
         do {
             console.clear();
-            console.log("=========================");
+            console.log("\x1b[35m====================================");
             console.log("Bienvenido al Casino ".concat(this.casino.getNombre()));
-            console.log("=========================");
-            console.log("1 - Registrarse");
-            console.log("0 - Salir");
+            console.log("====================================\x1b[0m");
+            console.log("\x1b[32m1 - Registrarse");
+            console.log("0 - Salir\x1b[0m");
             opcion = rls.questionInt("Selecciona una opcion: ");
             switch (opcion) {
                 case 1:
@@ -48,21 +55,19 @@ var Menu = /** @class */ (function () {
     };
     Menu.prototype.registrarUsuario = function () {
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Registro de Usuario");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
         var nombre = rls.question("Ingresa tu nombre: ");
         var dineroInicial = parseFloat(rls.question("Ingresa tu dinero inicial: "));
         if (isNaN(dineroInicial) || dineroInicial <= 0) {
             console.log("Dinero inicial invalido. Debes ingresar un numero mayor a 0.");
-            rls.question("Presiona Enter para regresar al menu principal...");
             return;
         }
         var nuevoUsuario = new Usuario_1.Usuario(nombre, dineroInicial);
         this.casino.agregarUsuario(nuevoUsuario);
         this.usuarioActual = nuevoUsuario;
         console.log("\u00A1Bienvenido, ".concat(nombre, "! Tienes $").concat(dineroInicial, " para jugar."));
-        rls.question("Presiona Enter para continuar...");
         this.mostrarMenuUsuario();
     };
     // Menú gestión del usuario
@@ -70,14 +75,11 @@ var Menu = /** @class */ (function () {
         var opcion;
         do {
             console.clear();
-            console.log("=========================");
-            console.log("Usuario: ".concat(this.usuarioActual.getNombre(), " | Saldo: $").concat(this.usuarioActual.dineroActual));
-            console.log("=========================");
-            console.log("1 - Jugar un juego");
+            this.mostrarCabecera();
+            console.log("\x1b[32m1 - Jugar un juego");
             console.log("2 - Depositar dinero");
-            console.log("3 - Ver dinero");
-            console.log("4 - Retirar dinero");
-            console.log("0 - Salir");
+            console.log("3 - Retirar dinero");
+            console.log("0 - Volver\x1b[0m");
             opcion = rls.questionInt("Selecciona una opcion: ");
             switch (opcion) {
                 case 1:
@@ -87,9 +89,6 @@ var Menu = /** @class */ (function () {
                     this.depositarDinero();
                     break;
                 case 3:
-                    this.verDinero();
-                    break;
-                case 4:
                     this.retirarDinero();
                     break;
                 case 0:
@@ -97,18 +96,19 @@ var Menu = /** @class */ (function () {
                     break;
                 default:
                     console.log("Opcion invalida. Intenta de nuevo.");
-                    rls.question("Presiona Enter para continuar...");
             }
         } while (opcion !== 0);
     };
     // Elegir un juego
     Menu.prototype.jugarJuego = function () {
+        this.mostrarCabecera();
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Seleccionar Juego");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
         this.casino.mostrarJuegos();
-        var opcion = parseInt(rls.questionInt("Selecciona un juego por su numero o 0 para volver: "));
+        console.log("0 - Volver\x1b[0m");
+        var opcion = parseInt(rls.questionInt("Selecciona una opcion: "));
         if (isNaN(opcion) || opcion < 0 || opcion > this.casino.getJuegos().length) {
             console.log("Opcion invalida. Volviendo al menu...");
         }
@@ -117,15 +117,14 @@ var Menu = /** @class */ (function () {
         }
         else {
             console.log("Has seleccionado: ".concat(this.casino.getJuegos()[opcion - 1].getNombre()));
-            rls.question("Presiona Enter para continuar...");
             this.menuJugar(this.casino.getJuegos()[opcion - 1]);
         }
     };
     Menu.prototype.depositarDinero = function () {
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Depositar Dinero");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
         var cantidad = parseFloat(rls.questionInt("Ingresa la cantidad a depositar: "));
         if (isNaN(cantidad) || cantidad <= 0) {
             console.log("Cantidad invalida. Debes ingresar un numero mayor a 0.");
@@ -134,20 +133,13 @@ var Menu = /** @class */ (function () {
             this.usuarioActual.dineroActual += cantidad;
             console.log("Has depositado $".concat(cantidad, ". Tu saldo actual es $").concat(this.usuarioActual.dineroActual, "."));
         }
-        rls.question("Presiona Enter para continuar...");
-    };
-    Menu.prototype.verDinero = function () {
-        console.clear();
-        console.log("=========================");
-        console.log("Tu saldo actual es: $".concat(this.usuarioActual.dineroActual, " ."));
-        console.log("=========================");
-        rls.question("Presiona Enter para continuar...");
+        rls.question("\nPresiona Enter para continuar...");
     };
     Menu.prototype.retirarDinero = function () {
         console.clear();
-        console.log("=========================");
+        console.log("\x1b[34m=========================");
         console.log("Retirar Dinero");
-        console.log("=========================");
+        console.log("=========================\x1b[0m");
         var cantidad = parseFloat(rls.questionInt("Ingresa la cantidad a retirar: "));
         if (isNaN(cantidad) || cantidad <= 0) {
             console.log("Cantidad invalida. Debes ingresar un numero mayor a 0.");
@@ -157,20 +149,20 @@ var Menu = /** @class */ (function () {
         }
         else {
             this.usuarioActual.dineroActual -= cantidad;
-            console.log("Has retirado $".concat(cantidad, ". Tu saldo actual es ").concat(this.usuarioActual.dineroActual, "."));
+            console.log("Has retirado $".concat(cantidad, ". Tu saldo actual es $").concat(this.usuarioActual.dineroActual, "."));
         }
-        rls.question("Presiona Enter para continuar...");
+        rls.question("\nPresiona Enter para continuar...");
     };
     Menu.prototype.menuJugar = function (juego) {
+        this.mostrarCabecera();
         var opcion;
         do {
             console.clear();
-            console.log("=========================");
-            console.log("Juego: ".concat(juego.getNombre()));
-            console.log("=========================");
+            console.log("\x1b[34m=========================");
             juego.mostrarReglas();
-            console.log("1 - Ingresar cantidad de apuesta");
-            console.log("0 - Salir");
+            console.log("=========================\x1b[0m");
+            console.log("\x1b[32m1 - Ingresar cantidad de apuesta");
+            console.log("0 - Volver\x1b[0m");
             opcion = rls.questionInt("Selecciona una opcion: ");
             switch (opcion) {
                 case 1:
@@ -185,13 +177,13 @@ var Menu = /** @class */ (function () {
         } while (opcion !== 0);
     };
     Menu.prototype.ingresarApuesta = function (juego) {
+        this.mostrarCabecera();
         var cantidad;
         var continuar = true;
         while (continuar) {
-            console.clear();
-            console.log("=========================");
+            console.log("\x1b[34m=========================");
             console.log("Ingresar Apuesta - ".concat(juego.getNombre()));
-            console.log("=========================");
+            console.log("=========================\x1b[0m");
             // Usa questionFloat para permitir números decimales
             cantidad = rls.questionFloat("Ingresa la cantidad a apostar (0 para regresar al menu anterior): ");
             if (cantidad === 0) {
@@ -201,36 +193,61 @@ var Menu = /** @class */ (function () {
             else {
                 // Si la apuesta es válida, inicia la tirada
                 if (juego.validarApuesta(this.usuarioActual, cantidad)) {
-                    this.menuTragamonedas(juego, cantidad);
+                    this.menuJuego(juego, cantidad);
                 }
-                rls.question("Presiona Enter para continuar jugando o ingresa 0 para regresar al menú...");
             }
         }
     };
-    Menu.prototype.menuTragamonedas = function (juego, cantidad) {
+    Menu.prototype.menuJuego = function (juego, cantidad) {
+        this.mostrarCabecera();
         var continuar = true;
         while (continuar) {
             console.clear();
-            console.log("=========================");
-            console.log("".concat(juego.getNombre()));
-            console.log("=========================");
-            // Validar la apuesta antes de iniciar la tirada
-            if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
-                continuar = false; // Sale del ciclo si no tiene dinero suficiente
-                break;
+            // Submenú específico para tragamonedas
+            if (juego instanceof Tragamoneda_1.Tragamoneda) {
+                this.mostrarCabecera();
+                console.log("\x1b[32m1- Hacer tirada");
+                console.log("0- Volver\x1b[0m");
+                var opcion = rls.questionInt("Elige una opcion: ");
+                if (opcion === 0) {
+                    continuar = false; // Salir del ciclo y regresar al menú de apuestas
+                    break;
+                }
+                else if (opcion === 1) {
+                    console.clear();
+                    if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                        continuar = false;
+                        break;
+                    }
+                    this.mostrarCabecera();
+                    juego.iniciarTirada(this.usuarioActual, cantidad); // Inicia la tirada
+                    rls.question("Presiona Enter para continuar...");
+                }
+                else {
+                    console.log("Opción inválida. Intenta nuevamente.");
+                }
+                // Flujo para las ruletas
             }
-            console.log("Iniciando tirada...");
-            juego.iniciarTirada(this.usuarioActual, cantidad); // Inicia la tirada
-            // Pregunta si desea continuar o volver al menú de apuestas
-            console.log("Dinero actual: $".concat(this.usuarioActual.getDineroActual()));
-            var opcion = rls.questionInt("Presiona 1 para hacer otra tirada o 0 para volver: ");
-            if (opcion === 0) {
-                console.log("Volviendo al menú de apuestas...");
-                continuar = false; // Salir del ciclo y regresar al menú de apuestas
-            }
-            else if (opcion !== 1) {
-                console.log("Opción inválida. Regresando al menú de apuestas...");
-                continuar = false;
+            else {
+                // Validar la apuesta antes de iniciar la tirada
+                if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                    continuar = false; // Sale del ciclo si no tiene dinero suficiente
+                    break;
+                }
+                this.mostrarCabecera();
+                juego.iniciarTirada(this.usuarioActual, cantidad); // Inicia la tirada
+                rls.question("Presiona Enter para continuar...");
+                // Pregunta si desea continuar o volver al menú de apuestas
+                this.mostrarCabecera();
+                var opcion = rls.questionInt("Presiona 1 para hacer otra tirada o 0 para volver: ");
+                if (opcion === 0) {
+                    console.log("Volviendo al menú de apuestas...");
+                    continuar = false; // Salir del ciclo y regresar al menú de apuestas
+                }
+                else if (opcion !== 1) {
+                    console.log("Opción inválida. Regresando al menú de apuestas...");
+                    continuar = false;
+                }
             }
         }
     };
