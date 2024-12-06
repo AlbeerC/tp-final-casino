@@ -24,7 +24,7 @@ var RuletaClasica = /** @class */ (function (_super) {
         return _super.call(this, nombre, apuestaMinima, apuestaMaxima) || this;
     }
     RuletaClasica.prototype.mostrarReglas = function () {
-        console.log("\uD83C\uDFA1 ".concat(this.nombre, ":\n    -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, "\n    -Pod\u00E9s apostar los n\u00FAmeros que quieras entre 0 y ").concat(this.numeros.length - 1, "\n    -Si apostaste al n\u00FAmero ganador, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat(this.numeros.length - 1, "\n    "));
+        console.log("\uD83C\uDFA1 ".concat(this.nombre, ":\n    -La apuesta debe estar entre ").concat(this.apuestaMinima, " y ").concat(this.apuestaMaxima, " (Cantidad apostada a cada n\u00FAmero)\n    -Pod\u00E9s apostar los n\u00FAmeros que quieras entre 0 y ").concat(this.numeros.length - 1, " \n    -Si apostaste al n\u00FAmero ganador, ganar\u00E1s lo apostado a ese n\u00FAmero multiplicado por ").concat(this.numeros.length - 1, "\n    "));
     };
     RuletaClasica.prototype.iniciarTirada = function (usuario, apuesta) {
         this.validarApuesta(usuario, apuesta);

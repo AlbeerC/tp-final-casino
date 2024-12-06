@@ -13,7 +13,7 @@ export class RuletaPotenciada extends Ruleta implements Reglas {
 
     mostrarReglas(): void {
         console.log(`🎡⚡ ${this.nombre}:
-    -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima}
+    -La apuesta debe estar entre ${this.apuestaMinima} y ${this.apuestaMaxima} (Cantidad apostada a cada número)
     -Podés apostar los números que quieras entre 0 y ${this.numeros.length - 1}
     -En cada ronda, se potencian 5 números.
     -Si apostaste al número ganador, ganarás lo apostado a ese número multiplicado por ${this.numeros.length - 5}
