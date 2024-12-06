@@ -163,6 +163,7 @@ export class Menu {
         console.log("\x1b[34m=========================");
         console.log("Retirar Dinero");
         console.log("=========================\x1b[0m");
+        this.mostrarCabecera();
 
         const cantidad = rls.questionFloat("Ingresa la cantidad a retirar: ");
 
@@ -211,58 +212,70 @@ export class Menu {
     }
 
     menuJuego(juego: any, cantidad: number) {
-        this.mostrarCabecera();
         let continuar = true;
     
         while (continuar) {
             console.clear();
-
+            this.mostrarCabecera();
+    
             // Submenú específico para tragamonedas
             if (juego instanceof Tragamoneda) {
-                this.mostrarCabecera();
-                console.log("\x1b[32m1- Hacer tirada");
-                console.log("0- Volver\x1b[0m");
-                const opcion = rls.questionInt("Elige una opcion: ");
-
-                if (opcion === 0) {
-                    continuar = false; // Salir del ciclo y regresar al menú de apuestas
-                    break;
-                } else if (opcion === 1) {
+                while (true) {
                     console.clear();
+                    this.mostrarCabecera();
+    
+                    // Validar si tiene dinero suficiente para apostar
                     if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                        console.log("No tienes suficiente dinero para continuar.");
                         continuar = false;
                         break;
                     }
-
-                    this.mostrarCabecera();
-                    juego.iniciarTirada(this.usuarioActual, cantidad); // Inicia la tirada
-                    rls.question("Presiona Enter para continuar...");
-                } else {
-                    console.log("Opción inválida. Intenta nuevamente.");
+    
+                    // Inicia la tirada
+                    juego.iniciarTirada(this.usuarioActual, cantidad);
+    
+                    // Mensaje para continuar o volver
+                    const input = rls.question("\x1b[33mPresiona Enter para hacer otra tirada o 0 para volver: \x1b[0m");
+                    if (input === "0") {
+                        continuar = false; // Salir del menú del juego
+                        break;
+                    } else if (input === "") {
+                        // Si presiona Enter, se repite el bucle para otra tirada
+                        continue;
+                    } else {
+                        console.log("Opción inválida. Intenta nuevamente.");
+                    }
                 }
-                // Flujo para las ruletas
             } else {
-                // Validar la apuesta antes de iniciar la tirada
-                if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
-                    continuar = false;  // Sale del ciclo si no tiene dinero suficiente
-                    break;
-                }
-                
-                this.mostrarCabecera();
-                juego.iniciarTirada(this.usuarioActual, cantidad);  // Inicia la tirada
-                rls.question("Presiona Enter para continuar...");
-        
-                // Pregunta si desea continuar o volver al menú de apuestas
-                this.mostrarCabecera();
-                const opcion = rls.questionInt("Presiona 1 para hacer otra tirada o 0 para volver: ");
-                if (opcion === 0) {
-                    console.log("Volviendo al menú de apuestas...");
-                    continuar = false;  // Salir del ciclo y regresar al menú de apuestas
-                } else if (opcion !== 1) {
-                    console.log("Opción inválida. Regresando al menú de apuestas...");
-                    continuar = false;
+                // Flujo genérico para otros juegos
+                while (true) {
+                    console.clear();
+                    this.mostrarCabecera();
+    
+                    // Validar si tiene dinero suficiente para apostar
+                    if (!juego.validarApuesta(this.usuarioActual, cantidad)) {
+                        console.log("No tienes suficiente dinero para continuar.");
+                        continuar = false;
+                        break;
+                    }
+    
+                    // Inicia la tirada
+                    juego.iniciarTirada(this.usuarioActual, cantidad);
+    
+                    // Mensaje para continuar o volver
+                    const input = rls.question("\x1b[33mPresiona Enter para hacer otra tirada o 0 para volver: \x1b[0m");
+                    if (input === "0") {
+                        continuar = false; // Salir del menú del juego
+                        break;
+                    } else if (input === "") {
+                        // Si presiona Enter, se repite el bucle para otra tirada
+                        continue;
+                    } else {
+                        console.log("Opción inválida. Intenta nuevamente.");
+                    }
                 }
             }
         }
     }
+    
 }
