@@ -4,8 +4,8 @@
 
 #### Casino online donde los usuarios podrán apostar jugando a distintos juegos
 
-#### [Planilla con pruebas funcionales:](https://docs.google.com/spreadsheets/d/13G3oIAtFaltsi9khBy-N1cMpvyAwRsrx6q9Wov1x4_A/edit?usp=sharing)
-#### [Diagrama de clases:](https://app.diagrams.net/#G1rpqZXpKs_6x5LxL9C3DiWqzfTMZOu48g)
+#### [Planilla con pruebas funcionales](https://docs.google.com/spreadsheets/d/13G3oIAtFaltsi9khBy-N1cMpvyAwRsrx6q9Wov1x4_A/edit?usp=sharing)
+#### [Diagrama de clases](https://app.diagrams.net/#G1rpqZXpKs_6x5LxL9C3DiWqzfTMZOu48g)
 
 #### Juegos:
 
